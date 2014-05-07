@@ -1,0 +1,16 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:valueConverters="clr-namespace:SimpleOAuthMail.ValueConverters">
+    <valueConverters:ListStringValueConverter x:Key="ListStringValueConverter" />
+    <DataTemplate x:Key="MailMessageDataTemplate">
+        <StackPanel>
+            <StackPanel Margin="4,4,0,0">
+                <TextBlock Text="{Binding Path=From}" FontWeight="Bold" />
+                <TextBlock Text="{Binding Path=To, Converter={StaticResource ListStringValueConverter}}"/>
+                <TextBlock Text="{Binding Path=Subject}" />
+            </StackPanel>
+        </StackPanel>
+    </DataTemplate>
+    <!-- Resource dictionary entries should be defined here. -->
+</ResourceDictionary>

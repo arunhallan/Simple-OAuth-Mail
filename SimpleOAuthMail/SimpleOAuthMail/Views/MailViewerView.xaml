@@ -1,0 +1,9 @@
+﻿<metro:MetroContentControl x:Class="SimpleOAuthMail.Views.MailViewerView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:SimpleOAuthMail.Controls"
+        xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro">
+    <Grid>
+        <controls:EmailViewerUserControl/>
+    </Grid>
+</metro:MetroContentControl>

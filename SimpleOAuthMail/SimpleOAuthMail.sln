@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleOAuthMail", "SimpleOAuthMail\SimpleOAuthMail.csproj", "{798DBD57-9719-4D0F-A57F-6F97384DD607}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleOAuthMail.OAuthDataConnections", "SimpleOAuthMail.OAuthDataConnections\SimpleOAuthMail.OAuthDataConnections.csproj", "{57F80492-E9CE-4148-A82B-9518239DB68D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleOAuthMail.Tests", "SimpleOAuthMail.Tests\SimpleOAuthMail.Tests.csproj", "{A4BE5EFB-87C1-4594-BA68-385AD88A850D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleOAuthMail.Shell", "SimpleOAuthMail.Shell\SimpleOAuthMail.Shell.csproj", "{DC0A88B3-B79A-4A3B-905D-722CA807D480}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{798DBD57-9719-4D0F-A57F-6F97384DD607}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{798DBD57-9719-4D0F-A57F-6F97384DD607}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{798DBD57-9719-4D0F-A57F-6F97384DD607}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{798DBD57-9719-4D0F-A57F-6F97384DD607}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57F80492-E9CE-4148-A82B-9518239DB68D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57F80492-E9CE-4148-A82B-9518239DB68D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57F80492-E9CE-4148-A82B-9518239DB68D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57F80492-E9CE-4148-A82B-9518239DB68D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4BE5EFB-87C1-4594-BA68-385AD88A850D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4BE5EFB-87C1-4594-BA68-385AD88A850D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4BE5EFB-87C1-4594-BA68-385AD88A850D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4BE5EFB-87C1-4594-BA68-385AD88A850D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC0A88B3-B79A-4A3B-905D-722CA807D480}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC0A88B3-B79A-4A3B-905D-722CA807D480}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC0A88B3-B79A-4A3B-905D-722CA807D480}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC0A88B3-B79A-4A3B-905D-722CA807D480}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

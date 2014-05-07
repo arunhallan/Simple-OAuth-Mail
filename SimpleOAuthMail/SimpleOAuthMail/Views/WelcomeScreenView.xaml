@@ -1,0 +1,34 @@
+﻿<controls:MetroContentControl x:Class="SimpleOAuthMail.Views.WelcomeScreenView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        Height="476.75" Width="521">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="4*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="4*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="4*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Margin="5,5,5,5">Welcome to Simple OAuth Mail! Please click a mail provider.</TextBlock>
+        <TextBox Grid.Row="1" Grid.Column="1" Margin="5,5,5,5" controls:TextboxHelper.Watermark="Enter email address..." Text="{Binding Path=EmailAddress, UpdateSourceTrigger=PropertyChanged}" FontSize="20"></TextBox>
+        <Button Grid.Column="1" Grid.Row="3" Background="White" Command="{Binding Path=SubmitMailProviderCommand}" CommandParameter="Google">
+            <StackPanel>
+                <Image Source="..\Images\gmail.png" Stretch="Fill" />
+            </StackPanel>
+        </Button>
+        <Button Grid.Column="1" Grid.Row="5" Background="#FF3A5999" Command="{Binding Path=SubmitMailProviderCommand}" CommandParameter="Facebook">
+            <StackPanel>
+                <Image Source="..\Images/facebook.jpg" Stretch="Fill"/>
+            </StackPanel>
+        </Button>
+    </Grid>
+</controls:MetroContentControl>

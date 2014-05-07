@@ -1,0 +1,29 @@
+﻿<controls:MetroContentControl x:Class="SimpleOAuthMail.Views.AuthorisationView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:osm="clr-namespace:Awesomium.Windows.Controls;assembly=Awesomium.Windows.Controls"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="20" />
+        </Grid.RowDefinitions>
+        <osm:WebControl x:Name="MainWebBrowser"
+                    Grid.Row="0" Grid.Column="0" 
+                    Source="{Binding WebAddress, Mode=OneWay}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="LoadingFrameComplete">
+                    <i:InvokeCommandAction Command="{Binding Path=LoadEmailCommand}" CommandParameter="{Binding ElementName=MainWebBrowser}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </osm:WebControl>
+        <Button Grid.Row="1" Grid.Column="0"
+                Command="{Binding Path=LoadEmailCommand}"
+                CommandParameter="{Binding ElementName=MainWebBrowser}">Manually Load Mail</Button>
+    </Grid>
+</controls:MetroContentControl>
+ 
