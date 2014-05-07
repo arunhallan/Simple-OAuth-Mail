@@ -3,6 +3,7 @@
     public static class UnityConstants
     {
         public const string MailProviderGoogle = "Google";
+        public const string MailProviderFacebook = "Facebook";
 
         public const string MainRegion = "MainRegion";
 
