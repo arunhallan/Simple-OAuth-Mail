@@ -39,8 +39,13 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Facebook\FacebookAuthenticationService.cs" />
+    <Compile Include="Facebook\FacebookDataConnectionConstants.cs" />
+    <Compile Include="Facebook\FacebookMessageFactory.cs" />
+    <Compile Include="Facebook\FacebookMessageService.cs" />
     <Compile Include="Google\GoogleDataConnectionConstants.cs" />
     <Compile Include="Google\GoogleAuthenticationService.cs" />
     <Compile Include="Google\GoogleMessageFactory.cs" />

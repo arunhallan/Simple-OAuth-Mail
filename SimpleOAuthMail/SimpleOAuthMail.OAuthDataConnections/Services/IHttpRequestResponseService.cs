@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Specialized;
 
 namespace SimpleOAuthMail.OAuthDataConnections.Services
 {
     public interface IHttpRequestResponseService
     {
-        string Post(string uri, List<string> uriPostData);
+        string Get(string uri, NameValueCollection uriData);
+        string Post(string uri, NameValueCollection uriData);
+        string GetFullGetUri(string uri, NameValueCollection uriData);
     }
 }

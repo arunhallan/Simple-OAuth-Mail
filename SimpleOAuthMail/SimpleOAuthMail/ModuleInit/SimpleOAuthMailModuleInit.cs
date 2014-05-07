@@ -6,6 +6,7 @@ using Microsoft.Practices.Prism.Modularity;
 using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.Unity;
 using SimpleOAuthMail.OAuthDataConnections;
+using SimpleOAuthMail.OAuthDataConnections.Facebook;
 using SimpleOAuthMail.OAuthDataConnections.Google;
 using SimpleOAuthMail.OAuthDataConnections.Services;
 using SimpleOAuthMail.ViewModels;
@@ -30,6 +31,9 @@ namespace SimpleOAuthMail.ModuleInit
             string googleClientSecret = ConfigurationManager.AppSettings.Get("GoogleClientSecret");
             string googleImapClientAddress = ConfigurationManager.AppSettings.Get("GoogleImapClientAddress");
 
+            string facebookClientId = ConfigurationManager.AppSettings.Get("FacebookClientId");
+            string facebookClientSecret = ConfigurationManager.AppSettings.Get("FacebookClientSecret");
+
             ResourceDictionary dictionary = new ResourceDictionary
             {
                 Source = new Uri("pack://application:,,,/SimpleOAuthMail;component/SimpleOAuthMailResourceDictionary.xaml")
@@ -40,16 +44,24 @@ namespace SimpleOAuthMail.ModuleInit
             _unityContainer.RegisterType<AuthorisationViewModel>();
             _unityContainer.RegisterType<MailViewerViewModel>();
 
-            _regionManager.RegisterViewWithRegion(UnityConstants.MainRegion, () => this._unityContainer.Resolve<WelcomeScreenView>());
-            _regionManager.RegisterViewWithRegion(UnityConstants.MainRegion, () => this._unityContainer.Resolve<AuthorisationView>());
-            _regionManager.RegisterViewWithRegion(UnityConstants.MainRegion, () => this._unityContainer.Resolve<MailViewerView>());
+            _regionManager.RegisterViewWithRegion(UnityConstants.MainRegion, () => _unityContainer.Resolve<WelcomeScreenView>());
+            _regionManager.RegisterViewWithRegion(UnityConstants.MainRegion, () => _unityContainer.Resolve<AuthorisationView>());
+            _regionManager.RegisterViewWithRegion(UnityConstants.MainRegion, () => _unityContainer.Resolve<MailViewerView>());
 
+            // Google
             IAuthenticationService googleAuthenticationService = new GoogleAuthenticationService(googleClientSecret, googleClientId, new HttpRequestResponseService());
             ImapClient googleImapClient = new ImapClient(googleImapClientAddress, true);
             IMessageService googleMessageService = new GoogleMessageService(googleImapClient);
 
             _unityContainer.RegisterInstance(UnityConstants.MailProviderGoogle, googleAuthenticationService, new ContainerControlledLifetimeManager());
             _unityContainer.RegisterInstance(UnityConstants.MailProviderGoogle, googleMessageService, new ContainerControlledLifetimeManager());
+
+            // Facebook
+            IAuthenticationService facebookAuthenticationService = new FacebookAuthenticationService(facebookClientId, facebookClientSecret, new HttpRequestResponseService());
+            IMessageService facebookMessageService = new FacebookMessageService(new HttpRequestResponseService());
+
+            _unityContainer.RegisterInstance(UnityConstants.MailProviderFacebook, facebookAuthenticationService, new ContainerControlledLifetimeManager());
+            _unityContainer.RegisterInstance(UnityConstants.MailProviderFacebook, facebookMessageService, new ContainerControlledLifetimeManager());
         }
     }
 }

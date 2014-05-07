@@ -5,6 +5,7 @@
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         Title="Simple OAuth Mail" Height="750" Width="750"
         GlowBrush="{DynamicResource BlackBrush}"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+                      WindowState="Maximized">
     <ContentControl Name="MainRegion" regions:RegionManager.RegionName="MainRegion"></ContentControl>
 </controls:MetroWindow>

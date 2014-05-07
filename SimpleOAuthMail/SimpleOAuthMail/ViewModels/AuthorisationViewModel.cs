@@ -19,7 +19,7 @@ namespace SimpleOAuthMail.ViewModels
         private IAuthenticationService _authenticationService;
         private readonly IRegionManager _regionManager;
         private Uri _webAddress;
-        private string _emailAddress = string.Empty;
+        private string _emailAddress;
         private string _mailProvider;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -41,6 +41,7 @@ namespace SimpleOAuthMail.ViewModels
         {
             IDictionary<string, string> authenticationData = new Dictionary<string, string>();
             authenticationData.Add("Title", webControl.Title);
+            authenticationData.Add("Uri", webControl.Source.AbsoluteUri);
             string accessToken;
             if (_authenticationService.TryGetToken(authenticationData, out accessToken))
             {

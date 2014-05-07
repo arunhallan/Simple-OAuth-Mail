@@ -69,7 +69,7 @@ namespace SimpleOAuthMail.ViewModels
         private void RaiseCanExecuteChanged()
         {
             DelegateCommand<string> command = SubmitMailProviderCommand as DelegateCommand<string>;
-            command.RaiseCanExecuteChanged();
+            if (command != null) command.RaiseCanExecuteChanged();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using Newtonsoft.Json.Linq;
 using SimpleOAuthMail.OAuthDataConnections.Services;
 
@@ -20,17 +21,15 @@ namespace SimpleOAuthMail.OAuthDataConnections.Google
 
         public Uri GetAuthenticationUri(string emailAddress)
         {
-            List<string> uriPostData = new List<string>
-            {
-                "client_id=" + _clientId,
-                "redirect_uri=urn:ietf:wg:oauth:2.0:oob",
-                "scope=https://mail.google.com/",
-                "response_type=code",
-                "login_hint=" + emailAddress
-            };
+            NameValueCollection nvm = new NameValueCollection();
+            nvm.Add("client_id", _clientId);
+            nvm.Add("redirect_uri", GoogleDataConnectionConstants.RedirectUri);
+            nvm.Add("scope", GoogleDataConnectionConstants.MailScopeUri);
+            nvm.Add("response_type", "code");
+            nvm.Add("login_hint", emailAddress);
 
-            Uri uri = new Uri(GoogleDataConnectionConstants.AuthenticationUri + string.Join("&", uriPostData.ToArray()));
-            return uri;
+            string uri = _httpRequestResponseService.GetFullGetUri(GoogleDataConnectionConstants.AuthenticationUri, nvm);
+            return new Uri(uri);            
         }
 
         public bool TryGetToken(IDictionary<string, string> authenticationData, out string token)
@@ -57,18 +56,16 @@ namespace SimpleOAuthMail.OAuthDataConnections.Google
 
         private string GetToken(string code)
         {
-            List<string> uriPostData = new List<string>
-            {
-                "code=" + code,
-                "client_id=" + _clientId,
-                "client_secret=" + _clientSecret,
-                "redirect_uri=urn:ietf:wg:oauth:2.0:oob",
-                "grant_type=authorization_code"
-            };
+            NameValueCollection nvm = new NameValueCollection();
+            nvm.Add("code", code);
+            nvm.Add("client_id", _clientId);
+            nvm.Add("client_secret", _clientSecret);
+            nvm.Add("redirect_uri", GoogleDataConnectionConstants.RedirectUri);
+            nvm.Add("cgrant_typeode", "authorization_code");
 
-            //Posting the Data to Google
-            string response = _httpRequestResponseService.Post(GoogleDataConnectionConstants.TokenUri, uriPostData);
-
+            string response = _httpRequestResponseService.Post(GoogleDataConnectionConstants.TokenUri, nvm);
+            
+            // TODO:  errors
             JObject jObject = JObject.Parse(response);
 
             string accessToken = jObject.SelectToken(GoogleDataConnectionConstants.AccessTokenKey).ToString();

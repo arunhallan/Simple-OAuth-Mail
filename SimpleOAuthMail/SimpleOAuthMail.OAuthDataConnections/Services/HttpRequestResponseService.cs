@@ -1,18 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Specialized;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
+using System.Web;
 
 namespace SimpleOAuthMail.OAuthDataConnections.Services
 {
     public class HttpRequestResponseService : IHttpRequestResponseService
     {
-        public string Post(string uri, List<string> uriPostData)
+        public string Post(string uri, NameValueCollection uriData)
         {
             WebRequest request = WebRequest.Create(uri);
 
-            string uriPostDataString = string.Join("&", uriPostData.ToArray());
+            string uriPostDataString = ToQueryString(uriData);
             byte[] byteArray = Encoding.UTF8.GetBytes(uriPostDataString);
 
             request.Method = "POST";
@@ -26,10 +27,32 @@ namespace SimpleOAuthMail.OAuthDataConnections.Services
             }
 
             string responseMessage = string.Empty;
-            try
+            
+            using (WebResponse response = request.GetResponse())
+            using (Stream responseStream = response.GetResponseStream())
             {
-                using (WebResponse response = request.GetResponse())
-                using (Stream responseStream = response.GetResponseStream())
+                if (responseStream != null)
+                {
+                    using (StreamReader reader = new StreamReader(responseStream))
+                    {
+                        responseMessage = reader.ReadToEnd();
+                    }
+                }
+            }
+            
+            return responseMessage;
+        }
+
+        public string Get(string uri, NameValueCollection uriData)
+        {
+            string responseMessage = string.Empty;
+            string fullUri = GetFullGetUri(uri, uriData);
+
+            WebRequest webRequest = WebRequest.Create(fullUri);
+            webRequest.Credentials = CredentialCache.DefaultCredentials;
+            using (WebResponse webResponse = webRequest.GetResponse())
+            {
+                using (Stream responseStream = webResponse.GetResponseStream())
                 {
                     if (responseStream != null)
                     {
@@ -40,13 +63,23 @@ namespace SimpleOAuthMail.OAuthDataConnections.Services
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                return "Error";
-            }
-
 
             return responseMessage;
+        }
+
+        public string GetFullGetUri(string uri, NameValueCollection uriData)
+        {
+            return uri + ToQueryString(uriData);
+        }
+
+        private string ToQueryString(NameValueCollection uriData)
+        {
+            var array = (from key in uriData.AllKeys
+                         from value in uriData.GetValues(key)
+                         select string.Format("{0}={1}", HttpUtility.UrlEncode(key), HttpUtility.UrlEncode(value)))
+                .ToArray();
+
+            return string.Join("&", array);
         }
     }
 }
