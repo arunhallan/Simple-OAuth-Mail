@@ -19,26 +19,32 @@ namespace SimpleOAuthMail.ViewModels
         private IMessageService _messageService;
         private string _mailProviderToken;
         private string _emailAddress;
+        private bool _isLoadingMail;
         private ObservableCollection<ICommonMailMessage> _mailMessages = new ObservableCollection<ICommonMailMessage>();
         public event PropertyChangedEventHandler PropertyChanged;
-
+        
         public MailViewerViewModel(IUnityContainer unityContainer)
         {
             _unityContainer = unityContainer;
         }
 
-        public void LoadMail()
+        public void LoadMailAync()
         {
             TaskScheduler uiTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
-            Task<IList<ICommonMailMessage>> loadMailTask =
-                            Task.Factory.StartNew(() => _messageService.GetInboxMailMessages(DateTime.Today.AddDays(-1)));
+            Task<IList<ICommonMailMessage>> loadMailTask = Task.Factory.StartNew(() => LoadMail());
+            loadMailTask.ContinueWith(loadedMailMessages => ProcessMails(loadedMailMessages.Result), uiTaskScheduler);
+        }
 
-            loadMailTask.ContinueWith(
-                            loadedMailMessages =>
-                            {
-                                MailMessages = new ObservableCollection<ICommonMailMessage>(loadedMailMessages.Result);
-                            },
-                            uiTaskScheduler) ;
+        private IList<ICommonMailMessage> LoadMail()
+        {
+            IsLoadingMail = true;
+            return _messageService.GetInboxMailMessages(DateTime.Today.AddDays(-1));
+        }
+
+        private void ProcessMails(IList<ICommonMailMessage> loadedMails)
+        {
+            MailMessages = new ObservableCollection<ICommonMailMessage>(loadedMails);
+            IsLoadingMail = false;
         }
         
         public void OnNavigatedTo(NavigationContext navigationContext)
@@ -50,7 +56,7 @@ namespace SimpleOAuthMail.ViewModels
             _messageService = _unityContainer.Resolve<IMessageService>(mailProvider);
             _messageService.Connect(_emailAddress, _mailProviderToken);
 
-            LoadMail();
+            LoadMailAync();
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -68,6 +74,16 @@ namespace SimpleOAuthMail.ViewModels
             set
             {
                 _mailMessages = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsLoadingMail
+        {
+            get { return _isLoadingMail; }
+            set
+            {
+                _isLoadingMail = value;
                 OnPropertyChanged();
             }
         }

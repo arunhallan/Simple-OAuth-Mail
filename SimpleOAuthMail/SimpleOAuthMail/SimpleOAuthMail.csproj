@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="ValueConverters\BoolToVisibleConverter.cs" />
     <Compile Include="ViewModels\MailViewerViewModel.cs" />
     <Compile Include="ViewModels\WelcomeScreenViewModel.cs" />
     <Compile Include="Views\AuthorisationView.xaml.cs">

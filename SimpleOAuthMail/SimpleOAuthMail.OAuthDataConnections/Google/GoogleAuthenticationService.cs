@@ -61,7 +61,7 @@ namespace SimpleOAuthMail.OAuthDataConnections.Google
             nvm.Add("client_id", _clientId);
             nvm.Add("client_secret", _clientSecret);
             nvm.Add("redirect_uri", GoogleDataConnectionConstants.RedirectUri);
-            nvm.Add("cgrant_typeode", "authorization_code");
+            nvm.Add("grant_type", "authorization_code");
 
             string response = _httpRequestResponseService.Post(GoogleDataConnectionConstants.TokenUri, nvm);
             

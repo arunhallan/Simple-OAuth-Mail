@@ -10,6 +10,8 @@ namespace SimpleOAuthMail.OAuthDataConnections.Google
 {
     public class GoogleMessageService : IDisposable, IMessageService
     {
+        private const string ImapDateFormat = "dd-MMM-yyyy";
+        private const string SinceImapQuery = "SINCE {0}";
         private readonly ImapClient _imapClient;
 
         public GoogleMessageService(ImapClient imapClient)
@@ -28,9 +30,9 @@ namespace SimpleOAuthMail.OAuthDataConnections.Google
                 throw new AccessViolationException("Failed to authenticate to the Google Imap client");   
         }
 
-        public IList<ICommonMailMessage> GetInboxMailMessages(DateTime dateToDownloadTo)
+        public IList<ICommonMailMessage> GetInboxMailMessages(DateTime dateToDownloadFrom)
         {
-            string sinceFilter = string.Format("SINCE {0}", dateToDownloadTo.ToString("dd-MMM-yyyy"));
+            string sinceFilter = string.Format(SinceImapQuery, dateToDownloadFrom.ToString(ImapDateFormat));
 
             var folder = _imapClient.Folders[GoogleDataConnectionConstants.InboxName];
             folder.Messages.Download(sinceFilter, MessageFetchMode.Basic);

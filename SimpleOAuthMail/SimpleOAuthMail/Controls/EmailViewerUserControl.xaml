@@ -8,6 +8,7 @@
 	x:Class="SimpleOAuthMail.Controls.EmailViewerUserControl"
 	x:Name="UserControl"
 	d:DesignWidth="640" d:DesignHeight="480">
+    
     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300" />
@@ -17,6 +18,12 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <Grid x:Name="Overlay" Panel.ZIndex="1000" Visibility="{Binding Path=IsLoadingMail, Converter={StaticResource BoolToVisibleConverter}}">
+            <Grid.Background>                
+                <SolidColorBrush Color="Black" Opacity=".5"/>
+            </Grid.Background>
+            <TextBlock Foreground="White">Loading...</TextBlock>
+        </Grid>
         <ListBox 
             x:Name="MailListBox"
             Grid.Column="0"

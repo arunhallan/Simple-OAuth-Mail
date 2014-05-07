@@ -3,6 +3,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:valueConverters="clr-namespace:SimpleOAuthMail.ValueConverters">
     <valueConverters:ListStringValueConverter x:Key="ListStringValueConverter" />
+    <valueConverters:BoolToVisibleConverter x:Key="BoolToVisibleConverter" />
     <DataTemplate x:Key="MailMessageDataTemplate">
         <StackPanel>
             <StackPanel Margin="4,4,0,0">
