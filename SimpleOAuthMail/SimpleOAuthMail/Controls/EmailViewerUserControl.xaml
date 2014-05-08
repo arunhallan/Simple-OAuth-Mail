@@ -8,7 +8,6 @@
 	x:Class="SimpleOAuthMail.Controls.EmailViewerUserControl"
 	x:Name="UserControl"
 	d:DesignWidth="640" d:DesignHeight="480">
-    
     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300" />
@@ -22,7 +21,7 @@
             <Grid.Background>                
                 <SolidColorBrush Color="Black" Opacity=".5"/>
             </Grid.Background>
-            <TextBlock Foreground="White">Loading...</TextBlock>
+            <TextBlock Foreground="White" FontSize="20">Loading...</TextBlock>
         </Grid>
         <ListBox 
             x:Name="MailListBox"

@@ -6,6 +6,6 @@
         Title="Simple OAuth Mail" Height="750" Width="750"
         GlowBrush="{DynamicResource BlackBrush}"
         WindowStartupLocation="CenterScreen"
-                      WindowState="Maximized">
+        WindowState="Maximized">
     <ContentControl Name="MainRegion" regions:RegionManager.RegionName="MainRegion"></ContentControl>
 </controls:MetroWindow>

@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
+using SimpleOAuthMail.OAuthDataConnections.Models;
 
 namespace SimpleOAuthMail.OAuthDataConnections
 {
     public interface IAuthenticationService
     {
         Uri GetAuthenticationUri(string emailAddress);
-        bool TryGetToken(IDictionary<string, string> authenticationData, out string token);
+        bool TryGetToken(WebPageData webPageData, out string token);
     }
 }

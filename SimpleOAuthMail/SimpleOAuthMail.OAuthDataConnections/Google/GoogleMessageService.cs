@@ -10,8 +10,6 @@ namespace SimpleOAuthMail.OAuthDataConnections.Google
 {
     public class GoogleMessageService : IDisposable, IMessageService
     {
-        private const string ImapDateFormat = "dd-MMM-yyyy";
-        private const string SinceImapQuery = "SINCE {0}";
         private readonly ImapClient _imapClient;
 
         public GoogleMessageService(ImapClient imapClient)
@@ -32,7 +30,8 @@ namespace SimpleOAuthMail.OAuthDataConnections.Google
 
         public IList<ICommonMailMessage> GetInboxMailMessages(DateTime dateToDownloadFrom)
         {
-            string sinceFilter = string.Format(SinceImapQuery, dateToDownloadFrom.ToString(ImapDateFormat));
+            string sinceFilter = string.Format(GoogleDataConnectionConstants.SinceImapQuery, 
+                                               dateToDownloadFrom.ToString(GoogleDataConnectionConstants.ImapDateFormat));
 
             var folder = _imapClient.Folders[GoogleDataConnectionConstants.InboxName];
             folder.Messages.Download(sinceFilter, MessageFetchMode.Basic);
@@ -40,7 +39,6 @@ namespace SimpleOAuthMail.OAuthDataConnections.Google
             return folder.Messages.Select(GoogleMessageFactory.CreateCommonMailMessage).ToList();
         }
 
-        // TODO 
         public void Dispose()
         {
             _imapClient.Dispose();

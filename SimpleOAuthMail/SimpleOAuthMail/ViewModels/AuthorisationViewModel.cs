@@ -1,28 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows.Input;
-using Awesomium.Windows.Controls;
+﻿using Awesomium.Windows.Controls;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.Unity;
 using SimpleOAuthMail.ModuleInit;
 using SimpleOAuthMail.OAuthDataConnections;
 using SimpleOAuthMail.Properties;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows.Input;
 
 namespace SimpleOAuthMail.ViewModels
 {
     public class AuthorisationViewModel : INotifyPropertyChanged, INavigationAware
     {
+        private readonly IRegionManager _regionManager;
         private readonly IUnityContainer _unityContainer;
         private IAuthenticationService _authenticationService;
-        private readonly IRegionManager _regionManager;
-        private Uri _webAddress;
         private string _emailAddress;
         private string _mailProvider;
-
-        public event PropertyChangedEventHandler PropertyChanged;
+        private Uri _webAddress;
 
         public AuthorisationViewModel(IUnityContainer unityContainer, IRegionManager regionManager)
         {
@@ -30,6 +28,44 @@ namespace SimpleOAuthMail.ViewModels
             _regionManager = regionManager;
 
             LoadEmailCommand = new DelegateCommand<WebControl>(DoLoadEmail, CanLoadEmail);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public ICommand LoadEmailCommand { get; private set; }
+
+        public Uri WebAddress
+        {
+            get { return _webAddress; }
+            set
+            {
+                _webAddress = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+        }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            _mailProvider = navigationContext.Parameters[UnityConstants.NavigationMailProvider].ToString();
+            _emailAddress = navigationContext.Parameters[UnityConstants.NavigationEmailAddress].ToString();
+            _authenticationService = _unityContainer.Resolve<IAuthenticationService>(_mailProvider);
+            LoadAuthorisationUri();
+        }
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private bool CanLoadEmail(WebControl webControl)
@@ -64,42 +100,6 @@ namespace SimpleOAuthMail.ViewModels
                 {UnityConstants.NavigationEmailAddress, _emailAddress}
             };
             _regionManager.RequestNavigate(UnityConstants.MainRegion, new Uri(UnityConstants.MailViewerView + parameters, UriKind.Relative));
-        }
-
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            _mailProvider = navigationContext.Parameters[UnityConstants.NavigationMailProvider].ToString();
-            _emailAddress = navigationContext.Parameters[UnityConstants.NavigationEmailAddress].ToString();
-            _authenticationService = _unityContainer.Resolve<IAuthenticationService>(_mailProvider);
-            LoadAuthorisationUri();
-        }
-
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return true;
-        }
-
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-        }
-
-        public Uri WebAddress
-        {
-            get { return _webAddress; }
-            set
-            {
-                _webAddress = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public ICommand LoadEmailCommand { get; private set; }
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

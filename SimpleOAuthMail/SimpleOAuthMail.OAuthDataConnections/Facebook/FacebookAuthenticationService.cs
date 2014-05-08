@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Web;
+using SimpleOAuthMail.OAuthDataConnections.Models;
 using SimpleOAuthMail.OAuthDataConnections.Services;
 
 namespace SimpleOAuthMail.OAuthDataConnections.Facebook
@@ -22,21 +23,22 @@ namespace SimpleOAuthMail.OAuthDataConnections.Facebook
 
         public Uri GetAuthenticationUri(string emailAddress)
         {
-            NameValueCollection nvm = new NameValueCollection();
-            nvm.Add("client_id", _clientId);
-            nvm.Add("redirect_uri", FacebookDataConnectionConstants.RedirectUri);
-            nvm.Add("scope", "read_mailbox");
+            NameValueCollection uriParams = new NameValueCollection
+            {
+                {FacebookDataConnectionConstants.ClientIdParam, _clientId},
+                {FacebookDataConnectionConstants.RedirectUriParam, FacebookDataConnectionConstants.RedirectUri},
+                {FacebookDataConnectionConstants.ScopeParameter, FacebookDataConnectionConstants.ScopeTypeReadMailBox}
+            };
 
-            string uri = _httpRequestResponseService.GetFullGetUri(FacebookDataConnectionConstants.AuthenticationUri, nvm);
+            string uri = _httpRequestResponseService.GetFullGetUri(FacebookDataConnectionConstants.AuthenticationUri, uriParams);
             return new Uri(uri);
         }
 
-        public bool TryGetToken(IDictionary<string, string> authenticationData, out string token)
+        public bool TryGetToken(WebPageData webPageData, out string token)
         {
             try
             {
-                string uriString = authenticationData["Uri"];
-                Uri uri = new Uri(uriString);
+                Uri uri = new Uri(webPageData.WebPageUri);
                 var parsedUri = HttpUtility.ParseQueryString(uri.Query);
                 if (parsedUri.AllKeys.Contains(FacebookDataConnectionConstants.CodeKey))
                 {
@@ -57,15 +59,15 @@ namespace SimpleOAuthMail.OAuthDataConnections.Facebook
 
         private string GetToken(string code)
         {
-            NameValueCollection nvm = new NameValueCollection
+            NameValueCollection uriParams = new NameValueCollection
             {
-                {"client_id", _clientId},
-                {"client_secret", _clientSecret},
-                {"redirect_uri", FacebookDataConnectionConstants.RedirectUri},
-                {"code", code}
+                {FacebookDataConnectionConstants.ClientIdParam, _clientId},
+                {FacebookDataConnectionConstants.ClientSecretParam, _clientSecret},
+                {FacebookDataConnectionConstants.RedirectUriParam, FacebookDataConnectionConstants.RedirectUri},
+                {FacebookDataConnectionConstants.CodeParam, code}
             };
 
-            string response = _httpRequestResponseService.Get(FacebookDataConnectionConstants.TokenUri, nvm);
+            string response = _httpRequestResponseService.Get(FacebookDataConnectionConstants.TokenUri, uriParams);
 
             var parsedquery = HttpUtility.ParseQueryString(response);
             string accesscode = parsedquery.Get(FacebookDataConnectionConstants.AccessTokenKey);

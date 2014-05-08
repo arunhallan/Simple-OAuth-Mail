@@ -1,17 +1,19 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using SimpleOAuthMail.OAuthDataConnections.Models;
+using SimpleOAuthMail.OAuthDataConnections.Services;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using Newtonsoft.Json.Linq;
-using SimpleOAuthMail.OAuthDataConnections.Services;
 
 namespace SimpleOAuthMail.OAuthDataConnections.Google
 {
     public class GoogleAuthenticationService : IAuthenticationService
     {
+        
         private readonly string _clientId;
         private readonly string _clientSecret;
         private readonly IHttpRequestResponseService _httpRequestResponseService;
-        
+
         public GoogleAuthenticationService(string clientSecret, string clientId, IHttpRequestResponseService httpRequestResponseService)
         {
             _clientSecret = clientSecret;
@@ -21,21 +23,23 @@ namespace SimpleOAuthMail.OAuthDataConnections.Google
 
         public Uri GetAuthenticationUri(string emailAddress)
         {
-            NameValueCollection nvm = new NameValueCollection();
-            nvm.Add("client_id", _clientId);
-            nvm.Add("redirect_uri", GoogleDataConnectionConstants.RedirectUri);
-            nvm.Add("scope", GoogleDataConnectionConstants.MailScopeUri);
-            nvm.Add("response_type", "code");
-            nvm.Add("login_hint", emailAddress);
+            NameValueCollection uriParams = new NameValueCollection
+            {
+                {GoogleDataConnectionConstants.ClientIdParam, _clientId},
+                {GoogleDataConnectionConstants.RedirectUriParam, GoogleDataConnectionConstants.RedirectUri},
+                {GoogleDataConnectionConstants.ScopeParam, GoogleDataConnectionConstants.MailScopeUri},
+                {GoogleDataConnectionConstants.ResponseTypeParam, GoogleDataConnectionConstants.ResponseTypeCode},
+                {GoogleDataConnectionConstants.LoginHintParam, emailAddress}
+            };
 
-            string uri = _httpRequestResponseService.GetFullGetUri(GoogleDataConnectionConstants.AuthenticationUri, nvm);
-            return new Uri(uri);            
+            string uri = _httpRequestResponseService.GetFullGetUri(GoogleDataConnectionConstants.AuthenticationUri, uriParams);
+            return new Uri(uri);
         }
 
-        public bool TryGetToken(IDictionary<string, string> authenticationData, out string token)
+        public bool TryGetToken(WebPageData webPageData, out string token)
         {
             token = string.Empty;
-            string titleData = authenticationData["Title"];
+            string titleData = webPageData.WebPageTitle;
 
             if (!titleData.Contains(GoogleDataConnectionConstants.SuccessCodePrefix))
             {
@@ -56,15 +60,17 @@ namespace SimpleOAuthMail.OAuthDataConnections.Google
 
         private string GetToken(string code)
         {
-            NameValueCollection nvm = new NameValueCollection();
-            nvm.Add("code", code);
-            nvm.Add("client_id", _clientId);
-            nvm.Add("client_secret", _clientSecret);
-            nvm.Add("redirect_uri", GoogleDataConnectionConstants.RedirectUri);
-            nvm.Add("grant_type", "authorization_code");
+            NameValueCollection uriParams = new NameValueCollection
+            {
+                {GoogleDataConnectionConstants.CodeParam, code},
+                {GoogleDataConnectionConstants.ClientIdParam, _clientId},
+                {GoogleDataConnectionConstants.ClientSecretParam, _clientSecret},
+                {GoogleDataConnectionConstants.RedirectUriParam, GoogleDataConnectionConstants.RedirectUri},
+                {GoogleDataConnectionConstants.GrantTypeParam, GoogleDataConnectionConstants.GrantTypeAuthorizationCode}
+            };
 
-            string response = _httpRequestResponseService.Post(GoogleDataConnectionConstants.TokenUri, nvm);
-            
+            string response = _httpRequestResponseService.Post(GoogleDataConnectionConstants.TokenUri, uriParams);
+
             // TODO:  errors
             JObject jObject = JObject.Parse(response);
 

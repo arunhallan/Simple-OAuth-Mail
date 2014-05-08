@@ -19,8 +19,19 @@
             <RowDefinition Height="4*" />
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
-        <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Margin="5,5,5,5">Welcome to Simple OAuth Mail! Please click a mail provider.</TextBlock>
-        <TextBox Grid.Row="1" Grid.Column="1" Margin="5,5,5,5" controls:TextboxHelper.Watermark="Enter email address..." Text="{Binding Path=EmailAddress, UpdateSourceTrigger=PropertyChanged}" FontSize="20"></TextBox>
+        <TextBlock 
+            Grid.Column="0" 
+            Grid.Row="0" 
+            Grid.ColumnSpan="3" 
+            Margin="5,5,5,5"
+            FontSize="13">Welcome to Simple OAuth Mail! Please enter an email user and click a mail provider.</TextBlock>
+        <TextBox 
+            Grid.Row="1" 
+            Grid.Column="1" 
+            Margin="5,5,5,5" 
+            controls:TextboxHelper.Watermark="Enter email address..." 
+            Text="{Binding Path=EmailAddress, UpdateSourceTrigger=PropertyChanged}" 
+            FontSize="20"></TextBox>
         <Button Grid.Column="1" Grid.Row="3" Background="White" Command="{Binding Path=SubmitMailProviderCommand}" CommandParameter="{x:Static moduleInit:UnityConstants.MailProviderGoogle}">
             <StackPanel>
                 <Image Source="..\Images\gmail.png" Stretch="Fill" />

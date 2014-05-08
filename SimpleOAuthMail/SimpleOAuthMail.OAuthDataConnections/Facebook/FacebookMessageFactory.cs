@@ -8,7 +8,14 @@ namespace SimpleOAuthMail.OAuthDataConnections.Facebook
     {
         public static List<ICommonMailMessage> CreateCommonMailMessages(JObject message)
         {
-            return new List<ICommonMailMessage>();
+            List<ICommonMailMessage> commonMailMessages = new List<ICommonMailMessage>();
+            
+            foreach (var token in message)
+            {
+                commonMailMessages.Add(new CommonMailMessage(new List<string>{"FacebookTo"}, "FacebookFrom", token.Value.ToString(), "SampleFacebookData"));
+            }
+
+            return commonMailMessages;
         }
     }
 }
