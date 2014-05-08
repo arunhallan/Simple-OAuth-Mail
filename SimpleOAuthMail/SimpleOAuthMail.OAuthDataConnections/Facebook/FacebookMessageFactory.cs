@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SimpleOAuthMail.OAuthDataConnections.Models;
 
@@ -22,6 +20,7 @@ namespace SimpleOAuthMail.OAuthDataConnections.Facebook
                         foreach (var tokenL1 in token.Value)
                         {
                             ICommonMailMessage commonMailMessage = ExtractMessageFromJson(tokenL1);
+
                             if (!string.IsNullOrEmpty(commonMailMessage.Body))
                                 commonMailMessages.Add(commonMailMessage);
                         }
