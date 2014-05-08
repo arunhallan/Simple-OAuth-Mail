@@ -40,9 +40,9 @@ namespace SimpleOAuthMail.ModuleInit
             };
             Application.Current.Resources.MergedDictionaries.Add(dictionary);
 
-            _unityContainer.RegisterType<WelcomeScreenViewModel>();
-            _unityContainer.RegisterType<AuthorisationViewModel>();
-            _unityContainer.RegisterType<MailViewerViewModel>();
+            _unityContainer.RegisterType<IWelcomeScreenViewModel, WelcomeScreenViewModel>();
+            _unityContainer.RegisterType<IAuthorisationViewModel, AuthorisationViewModel>();
+            _unityContainer.RegisterType<IMailViewerViewModel, MailViewerViewModel>();
 
             _regionManager.RegisterViewWithRegion(UnityConstants.MainRegion, () => _unityContainer.Resolve<WelcomeScreenView>());
             _regionManager.RegisterViewWithRegion(UnityConstants.MainRegion, () => _unityContainer.Resolve<AuthorisationView>());

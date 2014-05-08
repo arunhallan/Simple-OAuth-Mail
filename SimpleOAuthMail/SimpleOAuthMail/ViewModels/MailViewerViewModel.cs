@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace SimpleOAuthMail.ViewModels
 {
-    public class MailViewerViewModel : INotifyPropertyChanged, INavigationAware
+    public class MailViewerViewModel : INotifyPropertyChanged, INavigationAware, IMailViewerViewModel
     {
         private readonly IUnityContainer _unityContainer;
         private string _emailAddress;
@@ -90,6 +90,7 @@ namespace SimpleOAuthMail.ViewModels
             _messageService = _unityContainer.Resolve<IMessageService>(mailProvider);
             _messageService.Connect(_emailAddress, _mailProviderToken);
         }
+
         private IList<ICommonMailMessage> LoadMail()
         {
             IsLoadingMail = true;

@@ -10,7 +10,7 @@ namespace SimpleOAuthMail.Views
     [Export(UnityConstants.MailViewerView)]
     public partial class MailViewerView
     {
-        public MailViewerView(MailViewerViewModel mailViewerViewModel)
+        public MailViewerView(IMailViewerViewModel mailViewerViewModel)
         {
             InitializeComponent();
             this.DataContext = mailViewerViewModel;

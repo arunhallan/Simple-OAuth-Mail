@@ -11,7 +11,7 @@ namespace SimpleOAuthMail.Views
     [Export(UnityConstants.AuthorisationView)]
     public partial class AuthorisationView
     {
-        public AuthorisationView(AuthorisationViewModel authorisationViewModel)
+        public AuthorisationView(IAuthorisationViewModel authorisationViewModel)
         {
             InitializeComponent();
             this.DataContext = authorisationViewModel;

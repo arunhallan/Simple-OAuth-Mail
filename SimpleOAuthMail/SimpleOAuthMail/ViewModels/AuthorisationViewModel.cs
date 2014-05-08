@@ -13,7 +13,7 @@ using System.Windows.Input;
 
 namespace SimpleOAuthMail.ViewModels
 {
-    public class AuthorisationViewModel : INotifyPropertyChanged, INavigationAware
+    public class AuthorisationViewModel : INotifyPropertyChanged, INavigationAware, IAuthorisationViewModel
     {
         private readonly IRegionManager _regionManager;
         private readonly IUnityContainer _unityContainer;

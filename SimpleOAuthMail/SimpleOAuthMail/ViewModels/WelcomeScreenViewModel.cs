@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace SimpleOAuthMail.ViewModels
 {
-    public class WelcomeScreenViewModel : INotifyPropertyChanged
+    public class WelcomeScreenViewModel : INotifyPropertyChanged, IWelcomeScreenViewModel
     {
         private const string EmailSeperatorAt = "@";
         private const string EmailSeperatorDot = ".";

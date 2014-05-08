@@ -7,7 +7,7 @@ namespace SimpleOAuthMail.Views
     /// </summary>
     public partial class WelcomeScreenView 
     {
-        public WelcomeScreenView(WelcomeScreenViewModel welcomeScreenViewModel)
+        public WelcomeScreenView(IWelcomeScreenViewModel welcomeScreenViewModel)
         {
             InitializeComponent();
             this.DataContext = welcomeScreenViewModel;
