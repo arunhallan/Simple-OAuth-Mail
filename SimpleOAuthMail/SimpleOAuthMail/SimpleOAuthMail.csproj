@@ -47,6 +47,9 @@
     <Reference Include="ImapX">
       <HintPath>..\Lib\ImapX\ImapX.dll</HintPath>
     </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\Lib\log4net\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=0.13.1.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\MahApps.Metro\MahApps.Metro.dll</HintPath>
