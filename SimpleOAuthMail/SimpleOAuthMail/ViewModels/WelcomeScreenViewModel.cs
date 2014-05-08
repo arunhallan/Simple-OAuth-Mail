@@ -15,6 +15,7 @@ namespace SimpleOAuthMail.ViewModels
         private const string EmailSeperatorDot = ".";
         private readonly IRegionManager _regionManager;
         private string _emailAddress = string.Empty;
+
         public WelcomeScreenViewModel(IRegionManager regionManager)
         {
             _regionManager = regionManager;
@@ -22,6 +23,7 @@ namespace SimpleOAuthMail.ViewModels
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         public string EmailAddress
         {
             get { return _emailAddress; }
@@ -34,6 +36,7 @@ namespace SimpleOAuthMail.ViewModels
         }
 
         public ICommand SubmitMailProviderCommand { get; private set; }
+
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -66,6 +69,7 @@ namespace SimpleOAuthMail.ViewModels
                 {UnityConstants.NavigationMailProvider, mailProvider},
                 {UnityConstants.NavigationEmailAddress, _emailAddress}
             };
+
             _regionManager.RequestNavigate(UnityConstants.MainRegion, new Uri(UnityConstants.AuthorisationView + parameters, UriKind.Relative));
         }
 

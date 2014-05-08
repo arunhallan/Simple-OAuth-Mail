@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using SimpleOAuthMail.OAuthDataConnections.Models;
 using SimpleOAuthMail.OAuthDataConnections.Services;
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 
 namespace SimpleOAuthMail.OAuthDataConnections.Facebook
 {
@@ -24,12 +24,12 @@ namespace SimpleOAuthMail.OAuthDataConnections.Facebook
 
         public IList<ICommonMailMessage> GetInboxMailMessages(DateTime dateToDownloadTo)
         {
-            NameValueCollection nvm = new NameValueCollection
+            NameValueCollection uriData = new NameValueCollection
             {
                 {FacebookDataConnectionConstants.AccessTokenKey, _accessToken}
             };
 
-            string response = _httpRequestResponseService.Get(FacebookDataConnectionConstants.EmailUri, nvm);
+            string response = _httpRequestResponseService.Get(FacebookDataConnectionConstants.EmailUri, uriData);
 
             JObject jObject = JObject.Parse(response);
 

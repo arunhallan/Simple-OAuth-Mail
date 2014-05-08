@@ -4,9 +4,9 @@ using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.Unity;
 using SimpleOAuthMail.ModuleInit;
 using SimpleOAuthMail.OAuthDataConnections;
+using SimpleOAuthMail.OAuthDataConnections.Models;
 using SimpleOAuthMail.Properties;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
@@ -57,7 +57,8 @@ namespace SimpleOAuthMail.ViewModels
         {
             _mailProvider = navigationContext.Parameters[UnityConstants.NavigationMailProvider].ToString();
             _emailAddress = navigationContext.Parameters[UnityConstants.NavigationEmailAddress].ToString();
-            _authenticationService = _unityContainer.Resolve<IAuthenticationService>(_mailProvider);
+
+            InitialiseAuthenticationService();
             LoadAuthorisationUri();
         }
 
@@ -75,20 +76,23 @@ namespace SimpleOAuthMail.ViewModels
 
         private void DoLoadEmail(WebControl webControl)
         {
-            IDictionary<string, string> authenticationData = new Dictionary<string, string>();
-            authenticationData.Add("Title", webControl.Title);
-            authenticationData.Add("Uri", webControl.Source.AbsoluteUri);
+            WebPageData webPageData = new WebPageData(webControl.Title, webControl.Source.AbsoluteUri);
+
             string accessToken;
-            if (_authenticationService.TryGetToken(authenticationData, out accessToken))
+            if (_authenticationService.TryGetToken(webPageData, out accessToken))
             {
                 LoadMailViewerView(accessToken);
             }
         }
 
+        private void InitialiseAuthenticationService()
+        {
+            _authenticationService = _unityContainer.Resolve<IAuthenticationService>(_mailProvider);
+        }
+
         private void LoadAuthorisationUri()
         {
-            Uri authenticationUri = _authenticationService.GetAuthenticationUri(_emailAddress);
-            WebAddress = authenticationUri;
+            WebAddress = _authenticationService.GetAuthenticationUri(_emailAddress);
         }
 
         private void LoadMailViewerView(string accessToken)

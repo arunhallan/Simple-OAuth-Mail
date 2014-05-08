@@ -36,25 +36,20 @@ namespace SimpleOAuthMail.OAuthDataConnections.Facebook
 
         public bool TryGetToken(WebPageData webPageData, out string token)
         {
-            try
+            token = string.Empty;
+            bool success = false;
+
+            Uri uri = new Uri(webPageData.WebPageUri);
+            NameValueCollection parsedUriQuery = HttpUtility.ParseQueryString(uri.Query);
+
+            if (parsedUriQuery.AllKeys.Contains(FacebookDataConnectionConstants.CodeKey))
             {
-                Uri uri = new Uri(webPageData.WebPageUri);
-                var parsedUri = HttpUtility.ParseQueryString(uri.Query);
-                if (parsedUri.AllKeys.Contains(FacebookDataConnectionConstants.CodeKey))
-                {
-                    string code = parsedUri.Get(FacebookDataConnectionConstants.CodeKey);
-                    token = GetToken(code);
-                    return true;
-                }
-            }
-            catch (Exception)
-            {
-                token = string.Empty;
-                return false;
+                string code = parsedUriQuery.Get(FacebookDataConnectionConstants.CodeKey);
+                token = GetToken(code);
+                success = true;
             }
 
-            token = string.Empty;
-            return false;
+            return success;
         }
 
         private string GetToken(string code)
@@ -69,7 +64,7 @@ namespace SimpleOAuthMail.OAuthDataConnections.Facebook
 
             string response = _httpRequestResponseService.Get(FacebookDataConnectionConstants.TokenUri, uriParams);
 
-            var parsedquery = HttpUtility.ParseQueryString(response);
+            NameValueCollection parsedquery = HttpUtility.ParseQueryString(response);
             string accesscode = parsedquery.Get(FacebookDataConnectionConstants.AccessTokenKey);
             
             return accesscode;

@@ -53,6 +53,7 @@
     <Compile Include="IMessageService.cs" />
     <Compile Include="IAuthenticationService.cs" />
     <Compile Include="Models\ICommonMailMessage.cs" />
+    <Compile Include="Models\WebPageData.cs" />
     <Compile Include="Services\IHttpRequestResponseService.cs" />
     <Compile Include="Models\CommonMailMessage.cs" />
     <Compile Include="Services\HttpRequestResponseService.cs" />

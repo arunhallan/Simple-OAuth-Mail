@@ -56,7 +56,7 @@ namespace SimpleOAuthMail.ViewModels
             return true;
         }
 
-        public void LoadMailAync()
+        public void LoadMailAsync()
         {
             TaskScheduler uiTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
             Task<IList<ICommonMailMessage>> loadMailTask = Task.Factory.StartNew(() => LoadMail());
@@ -73,10 +73,9 @@ namespace SimpleOAuthMail.ViewModels
             _mailProviderToken = navigationContext.Parameters[UnityConstants.NavigationMailProviderToken].ToString();
             _emailAddress = navigationContext.Parameters[UnityConstants.NavigationEmailAddress].ToString();
 
-            _messageService = _unityContainer.Resolve<IMessageService>(mailProvider);
-            _messageService.Connect(_emailAddress, _mailProviderToken);
+            InitialiseMessageService(mailProvider);
 
-            LoadMailAync();
+            LoadMailAsync();
         }
 
         [NotifyPropertyChangedInvocator]
@@ -86,6 +85,11 @@ namespace SimpleOAuthMail.ViewModels
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        private void InitialiseMessageService(string mailProvider)
+        {
+            _messageService = _unityContainer.Resolve<IMessageService>(mailProvider);
+            _messageService.Connect(_emailAddress, _mailProviderToken);
+        }
         private IList<ICommonMailMessage> LoadMail()
         {
             IsLoadingMail = true;

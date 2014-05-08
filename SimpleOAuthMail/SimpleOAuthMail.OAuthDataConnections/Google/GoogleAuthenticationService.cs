@@ -2,14 +2,12 @@
 using SimpleOAuthMail.OAuthDataConnections.Models;
 using SimpleOAuthMail.OAuthDataConnections.Services;
 using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 
 namespace SimpleOAuthMail.OAuthDataConnections.Google
 {
     public class GoogleAuthenticationService : IAuthenticationService
     {
-        
         private readonly string _clientId;
         private readonly string _clientSecret;
         private readonly IHttpRequestResponseService _httpRequestResponseService;
@@ -71,7 +69,6 @@ namespace SimpleOAuthMail.OAuthDataConnections.Google
 
             string response = _httpRequestResponseService.Post(GoogleDataConnectionConstants.TokenUri, uriParams);
 
-            // TODO:  errors
             JObject jObject = JObject.Parse(response);
 
             string accessToken = jObject.SelectToken(GoogleDataConnectionConstants.AccessTokenKey).ToString();
