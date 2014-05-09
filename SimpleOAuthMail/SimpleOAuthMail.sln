@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleOAuthMail.Tests", "Si
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleOAuthMail.Shell", "SimpleOAuthMail.Shell\SimpleOAuthMail.Shell.csproj", "{DC0A88B3-B79A-4A3B-905D-722CA807D480}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleOAuthMail.Shell.Test", "SimpleOAuthMail.Shell.Test\SimpleOAuthMail.Shell.Test.csproj", "{DE71C152-1495-49EE-A399-8969CE8011C2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{DC0A88B3-B79A-4A3B-905D-722CA807D480}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC0A88B3-B79A-4A3B-905D-722CA807D480}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC0A88B3-B79A-4A3B-905D-722CA807D480}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE71C152-1495-49EE-A399-8969CE8011C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE71C152-1495-49EE-A399-8969CE8011C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE71C152-1495-49EE-A399-8969CE8011C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE71C152-1495-49EE-A399-8969CE8011C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

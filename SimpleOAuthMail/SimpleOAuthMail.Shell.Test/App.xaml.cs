@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace SimpleOAuthMail.Shell
+namespace SimpleOAuthMail.Shell.Test
 {
     /// <summary>
     /// Interaction logic for App.xaml
@@ -10,7 +10,7 @@ namespace SimpleOAuthMail.Shell
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            SimpleOAuthMailBootstrapper bootstrapper = new SimpleOAuthMailBootstrapper();
+            MockSimpleOAuthMailBootstrapper bootstrapper = new MockSimpleOAuthMailBootstrapper();
             bootstrapper.Run();
         }
     }
