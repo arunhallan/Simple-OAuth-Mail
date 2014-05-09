@@ -16,20 +16,19 @@ namespace SimpleOAuthMail.OAuthDataConnections.Services
 
             WebRequest webRequest = WebRequest.Create(fullUri);
             webRequest.Credentials = CredentialCache.DefaultCredentials;
+
             using (WebResponse webResponse = webRequest.GetResponse())
+            using (Stream responseStream = webResponse.GetResponseStream())
             {
-                using (Stream responseStream = webResponse.GetResponseStream())
+                if (responseStream != null)
                 {
-                    if (responseStream != null)
+                    using (StreamReader reader = new StreamReader(responseStream))
                     {
-                        using (StreamReader reader = new StreamReader(responseStream))
-                        {
-                            responseMessage = reader.ReadToEnd();
-                        }
+                        responseMessage = reader.ReadToEnd();
                     }
                 }
             }
-
+            
             return responseMessage;
         }
 
