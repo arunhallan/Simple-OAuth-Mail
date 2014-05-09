@@ -1,12 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using log4net;
 using Newtonsoft.Json.Linq;
+using SimpleOAuthMail.OAuthDataConnections.Google;
 using SimpleOAuthMail.OAuthDataConnections.Models;
 
 namespace SimpleOAuthMail.OAuthDataConnections.Facebook
 {
     public class FacebookMessageFactory
     {
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(GoogleAuthenticationService));
+
         public static List<ICommonMailMessage> CreateCommonMailMessages(JObject message)
         {
             List<ICommonMailMessage> commonMailMessages = new List<ICommonMailMessage>();
@@ -17,10 +22,18 @@ namespace SimpleOAuthMail.OAuthDataConnections.Facebook
                 {
                     foreach (var tokenL1 in token.Value)
                     {
-                        ICommonMailMessage commonMailMessage = ExtractMessageFromJson(tokenL1);
+                        try
+                        {
+                            ICommonMailMessage commonMailMessage = ExtractMessageFromJson(tokenL1);
 
-                        if (!string.IsNullOrEmpty(commonMailMessage.Body))
-                            commonMailMessages.Add(commonMailMessage);
+                            if (!string.IsNullOrEmpty(commonMailMessage.Body))
+                                commonMailMessages.Add(commonMailMessage);
+
+                        }
+                        catch(Exception ex) 
+                        {
+                            Logger.ErrorFormat("Error parsing JSON message with error: {0}", ex.Message);
+                        }
                     }
                 }
             }
