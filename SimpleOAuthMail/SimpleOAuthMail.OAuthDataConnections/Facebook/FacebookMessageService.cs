@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using log4net;
+using Newtonsoft.Json.Linq;
 using SimpleOAuthMail.OAuthDataConnections.Models;
 using SimpleOAuthMail.OAuthDataConnections.Services;
 using System;
@@ -11,6 +12,7 @@ namespace SimpleOAuthMail.OAuthDataConnections.Facebook
     {
         private readonly IHttpRequestResponseService _httpRequestResponseService;
         private string _accessToken;
+        private readonly ILog _logger = LogManager.GetLogger(typeof(FacebookMessageService));
 
         public FacebookMessageService(IHttpRequestResponseService httpRequestResponseService)
         {
@@ -29,13 +31,20 @@ namespace SimpleOAuthMail.OAuthDataConnections.Facebook
                 {FacebookDataConnectionConstants.AccessTokenKey, _accessToken}
             };
 
-            string response = _httpRequestResponseService.Get(FacebookDataConnectionConstants.EmailUri, uriData);
+            try
+            {
+                string response = _httpRequestResponseService.Get(FacebookDataConnectionConstants.EmailUri, uriData);
+                JObject jObject = JObject.Parse(response);
+                var convertedMessages = FacebookMessageFactory.CreateCommonMailMessages(jObject);
+                return convertedMessages;
+            }
+            catch (Exception ex)
+            {
+                // Consider throwing this error to the UI once there is UI error reporting
+                _logger.ErrorFormat("Failed to retrieve and parse JSON message from Facebook with exception: {0}", ex.Message);
+            }
 
-            JObject jObject = JObject.Parse(response);
-
-            var convertedMessages = FacebookMessageFactory.CreateCommonMailMessages(jObject);
-
-            return convertedMessages;
+            return new List<ICommonMailMessage>();
         }
     }
 }
