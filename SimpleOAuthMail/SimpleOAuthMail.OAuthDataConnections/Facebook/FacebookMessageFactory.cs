@@ -60,7 +60,7 @@ namespace SimpleOAuthMail.OAuthDataConnections.Facebook
                         if (fromObject != null)
                         {
                             string messageFrom = fromObject.Value<string>("name");
-                            message = string.Format("{0}:\n{1}", messageFrom, message);
+                            message = string.Format("<STRONG>{0}:</STRONG><BR/>{1}", messageFrom, message);
                         }
 
                         bodyComments.Add(message);
@@ -69,7 +69,7 @@ namespace SimpleOAuthMail.OAuthDataConnections.Facebook
 
             }
 
-            string body = string.Join("\n", bodyComments);
+            string body = string.Join("<BR/>", bodyComments);
             return new CommonMailMessage(toItems, string.Empty, body, string.Empty);
         }
     }
