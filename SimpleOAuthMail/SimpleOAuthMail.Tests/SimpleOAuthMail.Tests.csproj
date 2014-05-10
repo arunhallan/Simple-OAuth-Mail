@@ -76,6 +76,7 @@
   <ItemGroup>
     <Compile Include="Facebook\FacebookMessageServiceTest.cs" />
     <Compile Include="Facebook\MockFacebookRequestResponseService.cs" />
+    <Compile Include="Facebook\FacebookMessageServiceTests.cs" />
     <Compile Include="Google\GoogleMessageServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
