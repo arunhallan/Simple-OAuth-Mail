@@ -6,7 +6,7 @@ namespace SimpleOAuthMail.Tests.Google
     public class GoogleMessageServiceTests
     {
         [Test]
-        public void GivenAnImapClient_ReturnValidMessages()
+        public void Given_An_Imap_Client_Return_Valid_Messages()
         {
         }
     }

@@ -74,6 +74,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Facebook\FacebookMessageServiceTest.cs" />
+    <Compile Include="Facebook\MockFacebookRequestResponseService.cs" />
     <Compile Include="Google\GoogleMessageServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -90,6 +92,12 @@
       <Project>{798DBD57-9719-4D0F-A57F-6F97384DD607}</Project>
       <Name>SimpleOAuthMail</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\SimpleOAuthMail.Shell.Test\JSONSample.txt">
+      <Link>JSONSample.txt</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
