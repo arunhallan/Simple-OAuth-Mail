@@ -12,7 +12,7 @@ namespace SimpleOAuthMail.OAuthDataConnections.Facebook
     {
         private readonly IHttpRequestResponseService _httpRequestResponseService;
         private string _accessToken;
-        private readonly ILog _logger = LogManager.GetLogger(typeof(FacebookMessageService));
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(FacebookMessageService));
 
         public FacebookMessageService(IHttpRequestResponseService httpRequestResponseService)
         {
@@ -41,7 +41,7 @@ namespace SimpleOAuthMail.OAuthDataConnections.Facebook
             catch (Exception ex)
             {
                 // Consider throwing this error to the UI once there is UI error reporting
-                _logger.ErrorFormat("Failed to retrieve and parse JSON message from Facebook with exception: {0}", ex.Message);
+                Logger.ErrorFormat("Failed to retrieve and parse JSON message from Facebook with exception: {0}", ex.Message);
             }
 
             return new List<ICommonMailMessage>();

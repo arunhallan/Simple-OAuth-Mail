@@ -12,7 +12,7 @@ namespace SimpleOAuthMail.OAuthDataConnections.Google
         private readonly string _clientId;
         private readonly string _clientSecret;
         private readonly IHttpRequestResponseService _httpRequestResponseService;
-        private readonly ILog _logger = LogManager.GetLogger(typeof(GoogleAuthenticationService));
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(GoogleAuthenticationService));
 
         public GoogleAuthenticationService(string clientSecret, string clientId, IHttpRequestResponseService httpRequestResponseService)
         {
@@ -54,7 +54,7 @@ namespace SimpleOAuthMail.OAuthDataConnections.Google
             }
             catch
             {
-                _logger.ErrorFormat("Failed to get token from Uri:{0}", webPageData.WebPageTitle);
+                Logger.ErrorFormat("Failed to get token from Uri:{0}", webPageData.WebPageTitle);
                 return false;
             }
         }
